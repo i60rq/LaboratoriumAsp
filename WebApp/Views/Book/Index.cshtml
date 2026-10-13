@@ -1,9 +1,25 @@
-@* @model dynamic *@
-@* *@
-@* @{ *@
-@*     ViewBag.Title = "title"; *@
-@*     Layout = "_Layout"; *@
-@* } *@
-
+@model List<Book>
 <h2>Lista książek</h2>
-<a asp-action="EchoForm" asp-controller="Book">Formularz Echo</a>
+<a class="btn btn-primary" asp-controller="Book" asp-action="Create">Dodaj książkę</a>
+<table class="table">
+    <thead>
+    <th>
+        Tytuł
+    </th>
+    <th>
+        Rok
+    </th>
+    <th>
+        Autor
+    </th>
+    <th>
+        Cena
+    </th>
+    </thead>
+    <tbody>
+        @foreach (var book in @Model)
+        {
+            <partial model="@book" name="_BookRow"/>
+        }
+    </tbody>
+</table>

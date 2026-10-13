@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Models;
 
 namespace WebApp.Controllers;
 
@@ -7,24 +8,31 @@ public class BookController : Controller
     // GET
     public IActionResult Index()
     {
+        return View(BookStoreMemory.Books);
+    }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
         return View();
     }
 
-    public IActionResult Echo(string name, int? count)
+    [HttpPost]
+    public IActionResult Create(BookFormViewModel model)
     {
-        if (count == null)
+        if (!ModelState.IsValid)
         {
-            return BadRequest();
+            return View(model);
         }
-        {
-            ViewBag.Count = count;
-            ViewBag.Name = name;
-            return View();
-        }
-    }
 
-    public IActionResult EchoForm()
-    {
-        return View();
+        BookStoreMemory.Books.Add(new Book
+        {
+            Id = BookStoreMemory.Books.Max(b => b.Id) + 1,
+            Title = model.Title, Isbn = model.Isbn, PublicationDate = model.PublicationDate,
+            NumPages = model.NumPages, Price = model.Price, Author = model.Author
+        });
+        
+        TempData["Success"] = $"Dodano książkę „{model.Title}”.";
+        return RedirectToAction(nameof(Index));   
     }
 }
