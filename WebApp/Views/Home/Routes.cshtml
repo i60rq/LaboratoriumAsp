@@ -1,0 +1,29 @@
+﻿@model System.Collections.Generic.IEnumerable<WebApp.Controllers.RouteInfo>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Trasy</h2>
+<table class="table">
+    <thead>
+    <th>Wzór</th>
+    <th>Kontroler</th>
+    <th>Akcja</th>
+    <th>Obszar</th>
+    <th>Metoda HTTP</th>
+    </thead>
+    <tbody>
+        @foreach (var route in @Model)
+        {
+            <tr>
+                <td>@route.Pattern</td>
+                <td>@route.Controller</td>
+                <td>@route.Action</td>
+                <td>@route.Area</td>
+                <td>@route.Methods</td>
+            </tr>
+        }
+    </tbody>
+</table>

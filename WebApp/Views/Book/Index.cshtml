@@ -1,4 +1,4 @@
-@model List<Book>
+@model IEnumerable<Book>
 <h2>Lista książek</h2>
 <a class="btn btn-primary" asp-controller="Book" asp-action="Create">Dodaj książkę</a>
 <table class="table">
@@ -22,4 +22,4 @@
             <partial model="@book" name="_BookRow"/>
         }
     </tbody>
-</table>
+</table> 

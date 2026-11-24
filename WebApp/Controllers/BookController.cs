@@ -10,7 +10,12 @@ public class BookController : Controller
     {
         return View(BookStoreMemory.Books);
     }
-
+    [HttpGet("Book/Details/{id:int}")]
+    public IActionResult Details(int id)
+    {
+        var book = BookStoreMemory.Books.FirstOrDefault(b => b.Id == id);
+        return book is null ? NotFound(): View(book);
+    }
     [HttpGet]
     public IActionResult Create()
     {
@@ -34,5 +39,21 @@ public class BookController : Controller
         
         TempData["Success"] = $"Dodano książkę „{model.Title}”.";
         return RedirectToAction(nameof(Index));   
+    }
+
+    public async Task<IActionResult> ByYear(int year)
+    {
+        return View(nameof(Index), BookStoreMemory.Books.Where(b => b.PublicationDate.Value.Year == year));
+    }
+
+    public async Task<IActionResult> ByIsbn(string isbn)
+    {
+        var book = BookStoreMemory.Books.FirstOrDefault(b => b.Isbn.Replace("-", string.Empty) == isbn);
+        return book is null ?NotFound(): View(nameof(Details), book);
+    }
+
+    public IActionResult Docs(string? path)
+    {
+        return View(path);
     }
 }
